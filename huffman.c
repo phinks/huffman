@@ -501,9 +501,9 @@ static int write_code_table(FILE* out, SymbolEncoder* se, uint32_t symbol_count)
 			/* Write the 1 byte symbol. */
 			fputc((unsigned char)i, out);
 			/* Write the 1 byte code bit length. */
-			fputc(p->numbits, out);
+			fputc((int)p->numbits, out);
 			/* Write the code bytes. */
-			numbytes = numbytes_from_numbits(p->numbits);
+			numbytes = (unsigned int)numbytes_from_numbits(p->numbits);
 			if (fwrite(p->bits, 1, numbytes, out) != numbytes)
 				return 1;
 		}
@@ -556,7 +556,7 @@ static int write_code_table_to_memory(buf_cache* pc, SymbolEncoder* se, uint32_t
 			if (write_cache(pc, &uc, sizeof(uc)))
 				return 1;
 			/* Write the code bytes. */
-			numbytes = numbytes_from_numbits(p->numbits);
+			numbytes = (unsigned int)numbytes_from_numbits(p->numbits);
 			if (write_cache(pc, p->bits, numbytes))
 				return 1;
 		}
